@@ -35,14 +35,17 @@ export default function App() {
 
   return (
     <>
-      <AppBar position='sticky' sx={{ mb: 3 }}>
+      <AppBar position='sticky'>
         <Toolbar sx={{ justifyContent: "space-between" }}>
+          {/* nav title */}
           <Typography variant='h6'>📰 Daily Times News</Typography>
+
+          {/* theme button toggler */}
           <ThemeToggle />
         </Toolbar>
       </AppBar>
 
-      <Container sx={{ py: 2 }}>
+      <Container>
         <header>
           <h1 className='Text-header'>
             Latest <span className='Text-header-news'>News</span>

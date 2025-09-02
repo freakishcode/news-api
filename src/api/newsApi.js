@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_KEY, BASE_URL } from "../config/apiConfig";
+import { API_KEY, BASE_URL } from "./config/apiConfig";
 
 // Fetch headlines or search results with pagination
 export const fetchNews = async ({

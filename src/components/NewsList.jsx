@@ -1,7 +1,6 @@
 import {
   Box,
   Grid,
-  CircularProgress,
   Typography,
   Pagination,
   Stack,
@@ -12,6 +11,8 @@ import {
 } from "@mui/material";
 import NewsCard from "./NewsCard";
 import { useNews } from "../hooks/useNews";
+
+import LoadingAnimation from "../ui/PageLoading-Animation/LoadingAnimation";
 
 export default function NewsList({
   category,
@@ -24,30 +25,20 @@ export default function NewsList({
   const { data, isLoading, isError } = useNews(category, query, page, pageSize);
 
   // If data is still loading, show a loading spinner
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh", // full page height
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingAnimation />;
 
   // If there's an error, show an error message
   if (isError)
-    return <Typography color='error'>Failed to load news.</Typography>;
-  if (!data?.articles?.length) return <Typography>No news found.</Typography>;
+    return <Typography className='errorMsg'>Failed to load news.</Typography>;
+  if (!data?.articles?.length)
+    return <Typography className='not-found-err'>No news found.</Typography>;
 
+  //
   const totalPages = Math.ceil(data.totalResults / pageSize);
 
   return (
     <>
-      <Grid container spacing={2} sx={{ mb: 3 }}>
+      <Grid container spacing={3} sx={{ mb: 3 }}>
         {data.articles.map((article, index) => (
           <Grid key={index}>
             <NewsCard article={article} />

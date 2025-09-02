@@ -38,3 +38,13 @@ header {
     border-radius: 6px;
   }
 }
+
+.errorMsg {
+  color: red;
+  text-align: center;
+}
+
+.not-found-err {
+  color: orange;
+  text-align: center;
+}
