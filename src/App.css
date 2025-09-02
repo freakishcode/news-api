@@ -24,6 +24,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  background: url("../public/news.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.App {
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 header {
@@ -31,12 +37,25 @@ header {
   padding-top: 1rem;
   text-align: center;
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
 
   .Text-header-news {
     background-color: crimson;
     padding: 0.2rem 0.55rem;
     border-radius: 6px;
   }
+}
+
+.nav-items {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.themeToggle {
+  position: absolute;
+  top: -0.5rem;
 }
 
 .errorMsg {

@@ -34,26 +34,30 @@ export default function App() {
   };
 
   return (
-    <>
+    <div div className='App'>
       <AppBar position='sticky'>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* nav title */}
           <Typography variant='h6'>📰 Daily Times News</Typography>
 
-          {/* theme button toggler */}
-          <ThemeToggle />
+          <div className='nav-items'>
+            {/* theme button toggler */}
+            <ThemeToggle />
+            <SearchBar onSearch={handleSearch} />
+          </div>
         </Toolbar>
       </AppBar>
 
+      <header>
+        <h1 className='Text-header'>
+          Latest{" "}
+          <span span className='Text-header-news'>
+            News
+          </span>
+        </h1>
+      </header>
+
       <Container>
-        <header>
-          <h1 className='Text-header'>
-            Latest <span className='Text-header-news'>News</span>
-          </h1>
-        </header>
-
-        <SearchBar onSearch={handleSearch} />
-
         {!query && (
           <Tabs
             value={category}
@@ -76,6 +80,6 @@ export default function App() {
           setPageSize={setPageSize}
         />
       </Container>
-    </>
+    </div>
   );
 }

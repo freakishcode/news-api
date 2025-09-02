@@ -12,7 +12,7 @@ export default function NewsCard({ article }) {
     <Card
       className='shadow-lg rounded-2xl'
       sx={{
-        maxWidth: 345,
+        maxWidth: 265,
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -26,7 +26,7 @@ export default function NewsCard({ article }) {
       {article.urlToImage && (
         <CardMedia
           component='img'
-          height='160'
+          height='180'
           image={article.urlToImage}
           alt={article.title}
         />
@@ -36,7 +36,7 @@ export default function NewsCard({ article }) {
         <Typography variant='h6' gutterBottom noWrap>
           {article.title}
         </Typography>
-        <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
+        <Typography variant='body2' color='text.secondary'>
           {article.description || "No description available"}
         </Typography>
       </CardContent>
