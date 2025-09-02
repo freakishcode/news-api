@@ -1,6 +1,5 @@
 {
   "name": "news-api",
-  "homepage": "https://github.com/freakishcode/NEWS-api",
   "private": true,
   "version": "0.0.0",
   "type": "module",
