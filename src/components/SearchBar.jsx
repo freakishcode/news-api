@@ -1,20 +1,24 @@
+import { useState } from "react";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
 
-export default function SearchBar({ onSearch }) {
-  const [input, setInput] = useState("");
+export default function SearchBar({ value, onChange }) {
+  const [input, setInput] = useState(value || "");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(input);
+    onChange(input.trim()); // 🔑 only trigger on submit
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ marginBottom: "10px", marginTop: "10px" }}
+    >
       <TextField
         fullWidth
         variant='outlined'
+        label='Search'
         placeholder='Search for news...'
         value={input}
         onChange={(e) => setInput(e.target.value)}

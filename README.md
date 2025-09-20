@@ -1,6 +1,8 @@
-# React Query News App
+## React + PHP Search API (Material UI, Axios, React Query)
 
-A responsive **News App** built with **React, Material UI, and React Query**, featuring search, categories, pagination with rows-per-page control, and dark/light mode with persistence. News articles are fetched from [NewsAPI.org](https://newsapi.org/).
+This repository contains a production-ready example of a frontend React app (JavaScript + Vite) using Material UI, Axios, and React Query, with a PHP backend that acts as a secure proxy to an external API (so the API key stays on the server).
+
+It includes: search, categories, pagination, server-side caching hints, basic rate-limit protection suggestions, and deployment notes.
 
 ---
 
@@ -17,82 +19,46 @@ A responsive **News App** built with **React, Material UI, and React Query**, fe
 
 ---
 
-## 📂 Project Structure
+## Project structure (single-repo example)
 
 ```
-src/
- ├── api/
- │   └── newsApi.js        # Axios instance for NewsAPI
- ├── components/
- │   ├── CategoryTabs.jsx  # Category filter tabs
- │   ├── NewsBoard.jsx     # Main news board with pagination
- │   ├── NewsCard.jsx      # Individual article card
- │   └── SearchBar.jsx     # Search input field
- ├── theme/
- │   └── ThemeProvider.jsx # Dark/Light mode with localStorage
- ├── App.js                # Main app entry
- └── main.jsx              # React entry point
+/react-php-search-api/
+├─ PHP/
+│  ├─ public/
+│  │  ├─ index.php        # main entry (router)
+│  │  ├─ articles.php     # endpoint: /articles
+│  │  └─ .htaccess        # if using Apache
+│  ├─ src/
+│  │  └─ helper.php      # helper utilities (HTTP client, cache)
+│  └─ .env               # SERVER_API_KEY=your_api_key_here (NOT committed)
+├─ frontend/
+│  ├─ package.json
+│  ├─ jsconfig.json
+│  └─ src/
+│     ├─ main.jsx
+│     ├─ App.jsx
+│     ├─ api.js          # axios client to our PHP backend
+│     ├─ hooks/useArticles.js
+│     ├─ components/
+│     │  ├─ SearchBar.jsx
+│     │  ├─ CategoryChips.jsx
+│     │  └─ ArticleList.jsx
+│     └─ styles.css
+└─ README.md
 ```
 
 ---
 
-## ⚙️ Setup Instructions
+## Backend (PHP)
 
-### 1️⃣ Clone the repo
+Create `backend/public/articles.php` (this file receives requests from the frontend and forwards to the real third-party API while keeping the API key private):
 
-```bash
-git clone https://github.com/freakishcode/NEWS.git
-cd NEWS
-```
+## Deployment notes
 
-### 2️⃣ Install dependencies
-
-```bash
-npm install
-```
-
-### 3️⃣ Add your **NewsAPI key**
-
-Replace the `API_KEY` in `src/api/newsApi.js` with your own key from [NewsAPI](https://newsapi.org/).
-
-```javascript
-const API_KEY = "YOUR_API_KEY_HERE";
-```
-
-### 4️⃣ Start the dev server
-
-```bash
-npm run dev
-```
-
-Then open: [http://localhost:5173](http://localhost:5173)
-
----
-
-## 📦 Dependencies
-
-- [React](https://reactjs.org/)
-- [@tanstack/react-query](https://tanstack.com/query/latest)
-- [@mui/material](https://mui.com/)
-- [Axios](https://axios-http.com/)
-
----
-
-## 🚀 Deployment
-
-For production build:
-
-```bash
-npm run build
-```
-
-Then deploy the contents of `dist/` to **Netlify, Vercel, or any static host**.
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License**.
+- **Backend**: Deploy PHP backend on Apache/Nginx with `.env` holding your API key.
+- **Frontend**: Build React (`npm run build` with Vite) and host on Vercel/Netlify/GitHub Pages. Point frontend to backend baseURL.
+- **Security**: Never expose API key in frontend. CORS should be restricted in production.
+- **Caching**: Replace file cache with Redis/memcached for scaling.
 
 ---
 
@@ -103,5 +69,3 @@ This project is licensed under the **MIT License**.
 - [TanStack React Query](https://tanstack.com/query) for data fetching & caching
 
 ---
-
-🎉 Now you have a full-featured **React News App** with search, categories, pagination, and theme support!

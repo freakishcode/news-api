@@ -28,17 +28,25 @@
   background-size: cover;
 }
 
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
 .App {
   background-color: rgba(0, 0, 0, 0.9);
 }
 
 header {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  padding-top: 1rem;
   text-align: center;
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  color: #242424;
 
   .Text-header-news {
     background-color: crimson;
@@ -55,7 +63,7 @@ header {
 
 .themeToggle {
   position: absolute;
-  top: -0.5rem;
+  top: -0.1rem;
 }
 
 .errorMsg {

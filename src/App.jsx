@@ -3,83 +3,85 @@ import "./App.css";
 import { useState } from "react";
 import {
   Container,
+  Pagination,
   Typography,
-  Tabs,
-  Tab,
   AppBar,
   Toolbar,
+  Stack,
 } from "@mui/material";
-import NewsList from "./components/NewsList";
+
 import SearchBar from "./components/SearchBar";
+import CategoryChips from "./components/CategoryChips";
+import ArticleList from "./components/ArticleList";
+import { useArticles } from "./hooks/useArticles";
+
 import ThemeToggle from "./components/ThemeToggle";
+import LoadingAnimation from "./UI/PageLoading-Animation/LoadingAnimation";
 
 export default function App() {
-  const [category, setCategory] = useState("general");
-  const [query, setQuery] = useState("");
+  const [q, setQ] = useState("");
+  const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(12);
+  const perPage = 6;
 
-  const categories = ["general", "business", "technology", "sports", "health"];
-
-  const handleSearch = (keyword) => {
-    setQuery(keyword);
-    setPage(1);
-    if (keyword) setCategory("");
-  };
-
-  const handleCategoryChange = (newCategory) => {
-    setCategory(newCategory);
-    setQuery("");
-    setPage(1);
-  };
+  const { data, isLoading, isError } = useArticles({
+    q,
+    category,
+    page,
+    perPage,
+  });
 
   return (
-    <div div className='App'>
+    <Container sx={{ py: 2 }}>
       <AppBar position='sticky'>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* nav title */}
-          <Typography variant='h6'>📰 Daily Times News</Typography>
+          <Typography variant='h6'>📰 Bakare's Daily Times News</Typography>
 
           <div className='nav-items'>
             {/* theme button toggler */}
             <ThemeToggle />
-            <SearchBar onSearch={handleSearch} />
+            <SearchBar value={q} onChange={setQ} />
           </div>
         </Toolbar>
       </AppBar>
 
       <header>
         <h1 className='Text-header'>
-          Latest{" "}
-          <span span className='Text-header-news'>
-            News
-          </span>
+          <span>Latest </span>
+          <span className='Text-header-news'>News</span>
         </h1>
       </header>
 
-      <Container>
-        {!query && (
-          <Tabs
-            value={category}
-            onChange={(e, newValue) => handleCategoryChange(newValue)}
-            centered
-            sx={{ mb: 3 }}
-          >
-            {categories.map((cat) => (
-              <Tab key={cat} label={cat.toUpperCase()} value={cat} />
-            ))}
-          </Tabs>
-        )}
+      <CategoryChips value={category} onChange={setCategory} />
 
-        <NewsList
-          category={category}
-          query={query}
-          page={page}
-          setPage={setPage}
-          pageSize={pageSize}
-          setPageSize={setPageSize}
-        />
-      </Container>
-    </div>
+      {/* If data is still loading, show a loading spinner */}
+      {isLoading && <LoadingAnimation />}
+
+      {/*  If there's an error, show an error message */}
+      {isError && <p className='errorMsg'>Error loading articles</p>}
+
+      {data && (
+        <ArticleList articles={data.articles} isLoading={data.isLoading} />
+      )}
+
+      {/* PAGINATION */}
+      <Stack
+        direction='row'
+        justifyContent='center'
+        alignItems='center'
+        spacing={3}
+        sx={{ my: 2 }}
+      >
+        {data && (
+          <Pagination
+            count={Math.ceil(data.totalResults / perPage)}
+            page={page}
+            onChange={(e, val) => setPage(val)}
+            color='primary'
+          />
+        )}
+      </Stack>
+    </Container>
   );
 }
