@@ -1,8 +1,5 @@
 import { Typography, Grid } from "@mui/material";
 
-// skeleton loading using MUI
-import { ArticleSkeleton } from "../UI/ArticleSkeleton";
-
 import { ArticleCard } from "./ArticleCard";
 
 import NotFoundArticles from "../ui/NotFoundArticles";
