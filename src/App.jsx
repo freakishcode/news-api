@@ -16,7 +16,7 @@ import ArticleList from "./components/ArticleList";
 import { useArticles } from "./hooks/useArticles";
 
 import ThemeToggle from "./components/ThemeToggle";
-import LoadingAnimation from "./UI/PageLoading-Animation/LoadingAnimation";
+import LoadingAnimation from "./ui/PageLoading-Animation/LoadingAnimation";
 import ErrorLoading from "./ui/ErrorLoading";
 
 export default function App() {
@@ -25,7 +25,7 @@ export default function App() {
   const [page, setPage] = useState(1);
   const perPage = 6;
 
-  const { data, /*isLoading,*/ isError } = useArticles({
+  const { data, isLoading, isError } = useArticles({
     q,
     category,
     page,
@@ -57,7 +57,7 @@ export default function App() {
       <CategoryChips value={category} onChange={setCategory} />
 
       {/* If data is still loading, show a loading spinner */}
-      {/* {isLoading && <LoadingAnimation />} */}
+      {isLoading && <LoadingAnimation />}
 
       {/*  If there's an error, show an error message */}
       {isError && <ErrorLoading />}
