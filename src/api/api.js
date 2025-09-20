@@ -8,7 +8,7 @@ const isLocalhost =
 // Base URL: localhost for dev, InfinityFree/000webhost for prod
 const BASE_URL = isLocalhost
   ? "http://localhost/php" // adjust if your local XAMPP maps differently
-  : "https://mynews.infinityfreeapp.com"; // your deployed PHP backend
+  : "https://bkapicalls.infinityfreeapp.com/"; // your deployed PHP backend
 
 const api = axios.create({
   baseURL: BASE_URL,
