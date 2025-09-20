@@ -15,29 +15,14 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  /* background-color: #fff; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  background: url("../public/news.jpg") no-repeat center center fixed;
+
   background-size: cover;
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.App {
-  background-color: rgba(0, 0, 0, 0.9);
 }
 
 header {
@@ -46,7 +31,6 @@ header {
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  color: #242424;
 
   .Text-header-news {
     background-color: crimson;
