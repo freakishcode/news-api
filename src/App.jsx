@@ -17,6 +17,7 @@ import { useArticles } from "./hooks/useArticles";
 
 import ThemeToggle from "./components/ThemeToggle";
 import LoadingAnimation from "./UI/PageLoading-Animation/LoadingAnimation";
+import ErrorLoading from "./ui/ErrorLoading";
 
 export default function App() {
   const [q, setQ] = useState("");
@@ -36,7 +37,7 @@ export default function App() {
       <AppBar position='sticky'>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           {/* nav title */}
-          <Typography variant='h6'>📰 Bakare's Daily Times News</Typography>
+          <Typography variant='h6'>📰 BK's Daily Times</Typography>
 
           <div className='nav-items'>
             {/* theme button toggler */}
@@ -59,11 +60,10 @@ export default function App() {
       {isLoading && <LoadingAnimation />}
 
       {/*  If there's an error, show an error message */}
-      {isError && <p className='errorMsg'>Error loading articles</p>}
+      {isError && <ErrorLoading />}
 
-      {data && (
-        <ArticleList articles={data.articles} isLoading={data.isLoading} />
-      )}
+      {/* Article list */}
+      {data && <ArticleList articles={data.articles} />}
 
       {/* PAGINATION */}
       <Stack

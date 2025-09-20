@@ -2,7 +2,7 @@
 
 // php/articles.php
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // restrict in production to your frontend origin
+header('Access-Control-Allow-Origin: *'); // restrict in production
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -18,11 +18,10 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-// Load .env if available (works for local dev)
+// Load .env
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad(); // safeLoad() won’t break if .env is missing in production
+$dotenv->safeLoad();
 
-// Read safe server-side key from env
 $apiKey = getenv('SERVER_API_KEY') ?: $_ENV['SERVER_API_KEY'] ?? null;
 if (!$apiKey) {
   http_response_code(500);
@@ -30,24 +29,26 @@ if (!$apiKey) {
   exit;
 }
 
-// Validate and sanitize input params
+// Validate inputs
 $q = isset($_GET['q']) ? trim($_GET['q']) : '';
 $category = isset($_GET['category']) ? trim($_GET['category']) : '';
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $perPage = isset($_GET['perPage']) ? max(1, min(100, intval($_GET['perPage']))) : 10;
+$latest = isset($_GET['latest']) ? filter_var($_GET['latest'], FILTER_VALIDATE_BOOLEAN) : false;
 
-// Build third-party API URL dynamically
-if ($q !== '') {
-  // Search across all articles
+// Build URL
+if ($q !== '' || $latest) {
+  // "latest" forces everything endpoint, sorted by publishedAt
   $thirdPartyBase = 'https://newsapi.org/v2/everything';
   $params = [
-    'q' => $q,
+    'q' => $q !== '' ? $q : 'news', // fallback keyword
+    'sortBy' => 'publishedAt',
     'page' => $page,
     'pageSize' => $perPage,
     'apiKey' => $apiKey,
   ];
 } else {
-  // Fallback: top headlines
+  // Default: top headlines
   $thirdPartyBase = 'https://newsapi.org/v2/top-headlines';
   $params = [
     'country' => 'us',
@@ -61,8 +62,7 @@ if ($q !== '') {
 
 $thirdUrl = $thirdPartyBase . '?' . http_build_query($params);
 
-
-// Simple server-side caching (file cache). In production, use Redis or memcached.
+// Simple cache (file-based). Replace with Redis in prod.
 $cacheKey = 'cache_' . md5($thirdUrl);
 $cached = get_cache($cacheKey);
 if ($cached) {
@@ -70,11 +70,9 @@ if ($cached) {
   exit;
 }
 
-// call helper http client
 $response = http_get($thirdUrl);
 if ($response['http_code'] >= 200 && $response['http_code'] < 300) {
-  // store in cache for 60 seconds
-  set_cache($cacheKey, $response['body'], 60);
+  set_cache($cacheKey, $response['body'], 60); // cache 60s
   echo $response['body'];
   exit;
 }

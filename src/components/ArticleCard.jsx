@@ -16,7 +16,7 @@ export function ArticleCard({ article }) {
     <Card
       className='shadow-lg rounded-2xl'
       sx={{
-        maxWidth: 265,
+        maxWidth: 350,
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -30,14 +30,14 @@ export function ArticleCard({ article }) {
       {article.urlToImage && (
         <CardMedia
           component='img'
-          height='180'
+          height='150'
           image={article.urlToImage}
           alt={article.title || "Article image"}
         />
       )}
 
       <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant='h6' gutterBottom noWrap title={article.title}>
+        <Typography variant='h6' gutterBottom title={article.title}>
           {article.title}
         </Typography>
 
